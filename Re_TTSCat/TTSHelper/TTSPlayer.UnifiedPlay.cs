@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +19,7 @@ namespace Re_TTSCat
         /// <param name="ignoreRandomDitch">Specify true to ignore random ditching</param>
         public static async Task UnifiedPlay(string content, bool ignoreRandomDitch = false, bool overrideReadInQueue = false)
         {
+            var rawContent = content;
             if (string.IsNullOrWhiteSpace(content))
             {
                 Bridge.ALog("放弃: 内容为空");
@@ -61,6 +64,14 @@ namespace Re_TTSCat
                     break;
                 case 6:
                     fileName = await BaiduTTS.AiApi.Download(content, BaiduTTS.AiApi.ParseToSpeechPerson(Vars.CurrentConf.SpeechPerson));
+                    break;
+                case 7:
+                    {
+                        var dllfn = Path.Combine(Vars.ConfDir, "Microsoft.CognitiveServices.Speech.csharp.dll");
+                        Assembly.LoadFrom(dllfn);
+                        fileName = await MicrosoftTTS.Download(rawContent);
+                    }
+                    
                     break;
             }
             if (fileName == null)

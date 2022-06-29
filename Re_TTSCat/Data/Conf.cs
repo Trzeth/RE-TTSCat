@@ -150,7 +150,7 @@ namespace Re_TTSCat.Data
         /// <summary>
         /// 在弹幕姬启动时自动启动插件
         /// </summary>
-        public bool AutoStartOnLoad { get; set; }
+        public bool AutoStartOnLoad { get; set; }=true;
         /// <summary>
         /// 百度 AI 引擎的朗读人物<br/>
         /// 0 = 度小美, 1 = 度小宇, 2 = 度逍遥, 3 = 度丫丫, 4 = 度小娇, 5 = 度米朵, 6 = 度博文, 7 = 度小童, 8 = 度小萌
@@ -245,6 +245,16 @@ namespace Re_TTSCat.Data
         /// 百度 API 私钥
         /// </summary>
         public string BaiduApiSecretKey { get; set; }
+
+        /// <summary>
+        /// MicrosoftTTS私钥
+        /// </summary>
+        public string MicrosoftTtsSecretKey { get; set; } = "";
+
+        /// <summary>
+        /// MicrosoftTTS语音
+        /// </summary>
+        public string MicrosoftTtsSound { get; set; } = "zh-CN-XiaoyouNeural";
 
         /// <summary>
         /// 在连接成功后读出的内容，留空以禁用
