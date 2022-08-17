@@ -35,7 +35,7 @@ namespace Re_TTSCat
                 {
                     // play by voice generation (and by default)
                     // caution: different types of voice reply have different variables available
-                    await UnifiedPlay(
+                    await UnifiedPlay(e.CommentText,
                         Main.ProcessVoiceReply(e, rule),
                         true,
                         Vars.CurrentConf.InstantVoiceReply || overrideReadInQueue

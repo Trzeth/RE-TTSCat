@@ -344,5 +344,7 @@ namespace Re_TTSCat.Data
         /// 语音答复规则列表
         /// </summary>
         public List<VoiceReplyRule> VoiceReplyRules { get; set; }
+
+        public int IgnoreRepeatedDanmuNumber { get; set; } = 20;
     }
 }

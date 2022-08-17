@@ -20,13 +20,13 @@ namespace Re_TTSCat
             {
                 var hitAnyRule = await TTSPlayer.PlayVoiceReply(e.Danmaku);
                 if (!hitAnyRule || !Vars.CurrentConf.IgnoreIfHitVoiceReply)
-                    await TTSPlayer.UnifiedPlay(ProcessDanmaku(e));
+                    await TTSPlayer.UnifiedPlay(e.Danmaku.CommentText, ProcessDanmaku(e));
             }
             else
             {
                 var hitAnyRule = Vars.CurrentConf.VoiceReplyRules.Any(x => x.Matches(e.Danmaku));
                 if (!hitAnyRule || !Vars.CurrentConf.IgnoreIfHitVoiceReply)
-                    await TTSPlayer.UnifiedPlay(ProcessDanmaku(e));
+                    await TTSPlayer.UnifiedPlay(e.Danmaku.CommentText, ProcessDanmaku(e));
                 await TTSPlayer.PlayVoiceReply(e.Danmaku);
             }
         }

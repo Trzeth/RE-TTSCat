@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理"
-        MinHeight="620" Height="620"
+        MinHeight="620" Height="682"
         MinWidth="850" Width="850"
         Closing="Window_Closing">
     <Window.Resources>
@@ -463,6 +463,13 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Slider x:Name="Slider_GiftThrottleDuration" Width="120" Value="3" Maximum="60" Minimum="3" SmallChange="1" ToolTip="选择多少秒内的重复礼物应当被合并，此选项同样决定了礼物读出的最小延迟" ValueChanged="UpdateSliders"/>
                                     <TextBlock x:Name="TextBlock_GiftThrottleDuration" FontFamily="Consolas" Margin="5,0,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <TextBlock Text="忽略相同弹幕数量"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Slider x:Name="Slider_IgnoreDanmuNumber"  Width="120" Value="5" Maximum="50" Minimum="5" SmallChange="1" ToolTip="比如发红包的时候太多相同的弹幕，弹幕姬读不完啦" ValueChanged="UpdateSliders"/>
+                                    <TextBlock x:Name="TextBlock_IgnoreDanmuNumber" FontFamily="Consolas" Margin="5,0,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

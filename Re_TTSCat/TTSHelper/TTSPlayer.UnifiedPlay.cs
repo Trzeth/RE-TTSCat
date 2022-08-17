@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using BilibiliDM_PluginFramework;
 using NAudio.Wave;
 using Re_TTSCat.Data;
 
@@ -12,12 +14,15 @@ namespace Re_TTSCat
 {
     public static partial class TTSPlayer
     {
+
+        static Dictionary<string, int> contenCounter = new Dictionary<string, int>();
+
         /// <summary>
         /// Play something, other options are defined by current configurations
         /// </summary>
         /// <param name="content">Final TTS Content</param>
         /// <param name="ignoreRandomDitch">Specify true to ignore random ditching</param>
-        public static async Task UnifiedPlay(string content, bool ignoreRandomDitch = false, bool overrideReadInQueue = false)
+        public static async Task UnifiedPlay(string commentText, string content, bool ignoreRandomDitch = false, bool overrideReadInQueue = false)
         {
             var rawContent = content;
             if (string.IsNullOrWhiteSpace(content))
@@ -26,11 +31,38 @@ namespace Re_TTSCat
                 return;
             }
             Bridge.ALog("尝试朗读: " + content);
-            if (!Conf.GetRandomBool(Vars.CurrentConf.ReadPossibility) && !ignoreRandomDitch)
-            {
-                Bridge.ALog("放弃: 已随机丢弃");
-                return;
+            //if (!Conf.GetRandomBool(Vars.CurrentConf.ReadPossibility) && !ignoreRandomDitch)
+            //{
+            //    Bridge.ALog("放弃: 已随机丢弃");
+            //    return;
+            //}
+
+            lock (contenCounter) {
+                if (commentText == null)
+                {
+                    commentText = "";
+                }
+                if (contenCounter.ContainsKey(commentText))
+                {
+                    contenCounter[commentText]++;
+                }
+                else
+                {
+                    contenCounter.Add(commentText,1);
+                }
+
+                Bridge.ALog($"相同弹幕累计: {contenCounter[commentText]}");
+
+                if(contenCounter[commentText]> Vars.CurrentConf.IgnoreRepeatedDanmuNumber)
+                {
+                    Bridge.ALog($"相同弹幕累计太多，跳过: number:{contenCounter[commentText]} commentText:{commentText}");
+                    contenCounter[commentText]--;
+                    return;
+                }
             }
+
+            try { 
+
             string fileName;
             if (Vars.CurrentConf.EnableUrlEncode)
             {
@@ -89,7 +121,22 @@ namespace Re_TTSCat
                 Bridge.ALog($"正在直接播放: {fileName}");
                 Play(fileName, false);
             }
-            
+
+            }catch (Exception e)
+            {
+                Bridge.ALog($"播放异常: {e}");
+            }
+
+            lock (contenCounter)
+            {
+                contenCounter[commentText]--;
+                Bridge.ALog($"相同弹幕累计2: {contenCounter[commentText]}");
+                if (contenCounter[commentText] == 0)
+                {
+                    contenCounter.Remove(commentText);
+                }
+                
+            }
         }
     }
 }

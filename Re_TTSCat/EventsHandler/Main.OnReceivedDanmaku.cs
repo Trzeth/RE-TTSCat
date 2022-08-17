@@ -9,6 +9,10 @@ namespace Re_TTSCat
         public async void OnReceivedDanmaku(object sender, ReceivedDanmakuArgs e)
         {
             if (!IsNAudioReady) return;
+
+
+
+
             switch (e.Danmaku.MsgType)
             {
                 case MsgTypeEnum.Interact:
@@ -54,6 +58,9 @@ namespace Re_TTSCat
                     await WarningRoute(sender, e);
                     break;
             }
+
+
+
         }
     }
 }
