@@ -8,7 +8,7 @@ namespace Re_TTSCat
     {
         public async Task WarningRoute(object sender, ReceivedDanmakuArgs e)
         {
-            await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnWarning, true);
+            await TTSPlayer.UnifiedPlay(e.Danmaku.CommentText,Vars.CurrentConf.OnWarning, true);
         }
     }
 }

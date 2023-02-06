@@ -11,7 +11,7 @@ namespace Re_TTSCat
             // check user eligibility
             if (!Conf.CheckUserEligibility(e)) return;
             Bridge.ALog("规则检查通过，准备朗读");
-            await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnWelcomeGuard
+            await TTSPlayer.UnifiedPlay(e.Danmaku.CommentText, Vars.CurrentConf.OnWelcomeGuard
                 .Replace("$USER", e.Danmaku.UserName)
                 , true
             );

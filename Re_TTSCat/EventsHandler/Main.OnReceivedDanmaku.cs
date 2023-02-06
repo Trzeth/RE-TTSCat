@@ -1,5 +1,6 @@
 ﻿using BilibiliDM_PluginFramework;
 using Re_TTSCat.Data;
+using System.Diagnostics;
 
 namespace Re_TTSCat
 {
@@ -8,6 +9,10 @@ namespace Re_TTSCat
         public async void OnReceivedDanmaku(object sender, ReceivedDanmakuArgs e)
         {
             if (!IsNAudioReady) return;
+
+
+
+
             switch (e.Danmaku.MsgType)
             {
                 case MsgTypeEnum.Interact:
@@ -53,6 +58,9 @@ namespace Re_TTSCat
                     await WarningRoute(sender, e);
                     break;
             }
+
+
+
         }
     }
 }

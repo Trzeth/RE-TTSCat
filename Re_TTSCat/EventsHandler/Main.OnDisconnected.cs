@@ -16,7 +16,7 @@ namespace Re_TTSCat
             }
             if (e == null)
             {
-                await TTSPlayer.UnifiedPlay(
+                await TTSPlayer.UnifiedPlay("",
                     Vars.CurrentConf.OnDisconnected.Replace(
                         "$ERROR", ""
                     ), true
@@ -24,7 +24,7 @@ namespace Re_TTSCat
             }
             else
             {
-                await TTSPlayer.UnifiedPlay(
+                await TTSPlayer.UnifiedPlay("",
                     Vars.CurrentConf.OnDisconnected.Replace(
                         "$ERROR", e.Error.Message
                     )

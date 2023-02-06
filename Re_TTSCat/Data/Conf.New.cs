@@ -56,7 +56,7 @@ namespace Re_TTSCat.Data
             SuppressLogOutput = false;
             ClearCacheOnStartup = true;
             OverrideToLogsTabOnStartup = false;
-            AutoStartOnLoad = false;
+
             SpeechPerson = 0;
             EnableVoiceReply = false;
             InstantVoiceReply = false;
@@ -80,6 +80,7 @@ namespace Re_TTSCat.Data
             PostData = "";
             BaiduApiKey = "";
             BaiduApiSecretKey = "";
+
 
             CustomEngineURL = "https://tts.example.com/?text=$TTSTEXT";
             OnConnected = "已成功连接至房间: $ROOM";

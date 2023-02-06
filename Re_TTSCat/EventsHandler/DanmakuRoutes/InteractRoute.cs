@@ -34,7 +34,7 @@ namespace Re_TTSCat
                 default: return;
             }
 
-            await TTSPlayer.UnifiedPlay(result);
+            await TTSPlayer.UnifiedPlay(e.Danmaku.CommentText,result);
         }
     }
 }

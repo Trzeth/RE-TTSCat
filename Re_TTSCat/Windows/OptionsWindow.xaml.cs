@@ -188,7 +188,7 @@ namespace Re_TTSCat.Windows
         {
             try
             {
-                await TTSPlayer.UnifiedPlay(TextBox_TTSTest.Text);
+                await TTSPlayer.UnifiedPlay(null,TextBox_TTSTest.Text);
                 TextBox_ExecutionResult.Text = "播放成功/已添加到队列";
             }
             catch (Exception ex)
@@ -350,6 +350,10 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.PostData = TextBox_PostData.Text;
             Vars.CurrentConf.BaiduApiKey = TextBox_BaiduApiKey.Text;
             Vars.CurrentConf.BaiduApiSecretKey = TextBox_BaiduApiSecretKey.Password;
+            Vars.CurrentConf.MicrosoftTtsSecretKey = TextBox_MicrosoftTTS_SecretKey.Password;
+            Vars.CurrentConf.MicrosoftTtsSound = TextBox_MicrosoftTTS_Sound.Text;
+
+            Vars.CurrentConf.IgnoreRepeatedDanmuNumber = (int)Math.Round(Slider_IgnoreDanmuNumber.Value);
             try
             {
                 Vars.CurrentConf.Headers = JsonConvert.DeserializeObject<List<Header>>(TextBox_Headers.Text);
@@ -444,6 +448,8 @@ namespace Re_TTSCat.Windows
             TextBox_HTTPAuthPassword.Password = Vars.CurrentConf.HttpAuthPassword;
             TextBox_BaiduApiKey.Text = Vars.CurrentConf.BaiduApiKey;
             TextBox_BaiduApiSecretKey.Password = Vars.CurrentConf.BaiduApiSecretKey;
+            TextBox_MicrosoftTTS_SecretKey.Password = Vars.CurrentConf.MicrosoftTtsSecretKey;
+            TextBox_MicrosoftTTS_Sound.Text = Vars.CurrentConf.MicrosoftTtsSound;
             ComboBox_Engine.SelectedIndex = Vars.CurrentConf.Engine;
             ComboBox_Person.SelectedIndex = Vars.CurrentConf.SpeechPerson;
             ComboBox_PostMethod.SelectedIndex = (int)Vars.CurrentConf.ReqType;
@@ -451,6 +457,9 @@ namespace Re_TTSCat.Windows
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;
             ComboBox_KeywordBlockMode.SelectedIndex = Vars.CurrentConf.KeywordBlockMode;
             ComboBox_BlockType.SelectedIndex = Vars.CurrentConf.BlockUID ? 0 : 1;
+
+            Slider_IgnoreDanmuNumber.Value = Vars.CurrentConf.IgnoreRepeatedDanmuNumber;
+
             var deviceList = new List<PlaybackDeviceWrapper>();
             var matchIndex = 0;
             foreach (var dev in DirectSoundOut.Devices)
@@ -597,6 +606,7 @@ namespace Re_TTSCat.Windows
             TextBlock_GiftThrottleDuration.Text = Math.Round(Slider_GiftThrottleDuration.Value).ToString();
             Slider_DMLengthLimit.Maximum = Slider_DMLengthLimitMax.Value;
             Slider_DMLengthLimitMax.Minimum = Slider_DMLengthLimit.Value;
+            TextBlock_IgnoreDanmuNumber.Text = Math.Round(Slider_IgnoreDanmuNumber.Value).ToString();
         }
         
         private async Task OnLoad(object sender, RoutedEventArgs e)

@@ -1,4 +1,6 @@
-﻿namespace Re_TTSCat.Data
+﻿using System.Diagnostics;
+
+namespace Re_TTSCat.Data
 {
     public partial class Bridge
     {
@@ -8,6 +10,7 @@
         /// <param name="content">日志内容</param>
         public static void ALog(string content)
         {
+            Trace.WriteLine("TTScat:"+ content);
             MainInstance.ALog(content);
         }
     }

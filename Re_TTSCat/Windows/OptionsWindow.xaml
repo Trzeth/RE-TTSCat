@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理"
-        MinHeight="620" Height="620"
+        MinHeight="620" Height="682"
         MinWidth="850" Width="850"
         Closing="Window_Closing">
     <Window.Resources>
@@ -388,6 +388,7 @@
                                     <ComboBoxItem Content="有道（未经加密）" ToolTip="使用网易有道 TTS 引擎&#xA;&#xA;该引擎使用时与服务器的连接未经加密，请酌情使用"/>
                                     <ComboBoxItem Content="用户自定义引擎" ToolTip="使用您在右侧自定义的 TTS 引擎&#xA;&#xA;使用 $TTSTEXT 来代替需要读出的文本"/>
                                     <ComboBoxItem Content="百度（高级版）" ToolTip="使用百度高级 TTS 引擎&#xA;&#xA;您需要在右侧指定百度高级版语音合成引擎的 API 密钥，否则无法正常使用。"/>
+                                    <ComboBoxItem Content="微软" ToolTip="现在其实是是自定义写死的啦"/>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
@@ -464,6 +465,13 @@
                                     <TextBlock x:Name="TextBlock_GiftThrottleDuration" FontFamily="Consolas" Margin="5,0,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <TextBlock Text="忽略相同弹幕数量"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Slider x:Name="Slider_IgnoreDanmuNumber"  Width="120" Value="5" Maximum="50" Minimum="5" SmallChange="1" ToolTip="比如发红包的时候太多相同的弹幕，弹幕姬读不完啦" ValueChanged="UpdateSliders"/>
+                                    <TextBlock x:Name="TextBlock_IgnoreDanmuNumber" FontFamily="Consolas" Margin="5,0,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
                         <CheckBox x:Name="CheckBox_DebugMode" HorizontalAlignment="Left" Margin="5,0,0,5" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃" Height="14" VerticalAlignment="Bottom">
                             <local:IconTextBlock IconGlyph="&#xF0E7;" Text="我是高级用户（请阅读悬停提示）"/>
@@ -495,9 +503,17 @@
                         <TextBlock Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
                             <Hyperlink Click="Hyperlink_Click_2" ToolTip="在百度官网了解高级版接口的收费及密钥获取方法">了解更多</Hyperlink>
                         </TextBlock>
+
                         <TextBox x:Name="TextBox_BaiduApiKey" FontFamily="Consolas" VerticalAlignment="Top" Margin="0,20,5,0" ToolTip="百度高级版引擎的 API 公钥" HorizontalAlignment="Right" Width="286" />
                         <local:IconTextBlock x:Name="TextBlock_BaiduApiSecretKey" Margin="0,41,161,0" IconGlyph="&#xF084;" Text="百度高级版 API 私钥" VerticalAlignment="Top" HorizontalAlignment="Right" Width="130"/>
                         <PasswordBox x:Name="TextBox_BaiduApiSecretKey" VerticalAlignment="Top" Margin="0,56,5,0" ToolTip="百度高级版引擎的 API 私钥" HorizontalAlignment="Right" Width="286" />
+
+                        <local:IconTextBlock x:Name="TextBlock_MicrosoftTTS_SecretKey" Margin="0,81,161,0" IconGlyph="&#xF084;" Text="MicrosoftTTS私钥" VerticalAlignment="Top" HorizontalAlignment="Right" Width="130"/>
+                        <PasswordBox x:Name="TextBox_MicrosoftTTS_SecretKey" VerticalAlignment="Top" Margin="0,96,5,0" ToolTip="MicrosoftTTS私钥" HorizontalAlignment="Right" Width="286" />
+
+                        <local:IconTextBlock x:Name="TextBlock_MicrosoftTTS_Sound" Margin="0,120,122,0" Text="MicrosoftTTS语音（声优）" VerticalAlignment="Top" HorizontalAlignment="Right" Width="164"/>
+                        <TextBox x:Name="TextBox_MicrosoftTTS_Sound" VerticalAlignment="Top" Margin="0,136,5,0" HorizontalAlignment="Right" Width="286"  />
+
                         <Button x:Name="Button_ClearCache" Margin="0,0,85,5" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click" Height="25" VerticalAlignment="Bottom">
                             <local:IconTextBlock IconGlyph="&#xF2ED;" Text="清理缓存"/>
                         </Button>
