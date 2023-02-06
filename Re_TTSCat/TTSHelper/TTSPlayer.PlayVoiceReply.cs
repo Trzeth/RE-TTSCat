@@ -1,6 +1,8 @@
 ﻿using BilibiliDM_PluginFramework;
 using Re_TTSCat.Data;
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Re_TTSCat
@@ -11,7 +13,7 @@ namespace Re_TTSCat
         {
             if (alwaysMatch || rule.Matches(e))
             {
-                if ((VoiceReplyRule.ReplyMode)rule.ReplyingMode != VoiceReplyRule.ReplyMode.VoiceGeneration)
+                if ((VoiceReplyRule.ReplyMode)rule.ReplyingMode == VoiceReplyRule.ReplyMode.PrerecordedMessage)
                 {
                     // play specific file:
                     try
@@ -24,6 +26,50 @@ namespace Re_TTSCat
                         {
                             // add the file to queue
                             fileList.Add(new TTSEntry(rule.ReplyContent, true));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Bridge.ALog($"无法读出语音答复: {ex.Message}");
+                    }
+                }
+                else if ((VoiceReplyRule.ReplyMode)rule.ReplyingMode == VoiceReplyRule.ReplyMode.PrerecordedMessageFolder)
+                {
+                    // play file in folder randomly:
+                    try
+                    {
+                        var files = Directory.GetFiles(rule.ReplyContent);
+                        var randomList = files.ToList();
+                        foreach (var file in files)
+                        {
+                            int weight = 1;
+                            if (file.Count(c => c == '.') >= 2 &&
+                                int.TryParse(file.Substring(file.Substring(0, file.LastIndexOf('.')).LastIndexOf('.')), out weight))
+                            {
+                                if (weight < 1)
+                                {
+                                    randomList.Remove(file);
+                                }
+                                else
+                                {
+                                    for (int i = 0; i != weight - 1; i++)
+                                        randomList.Add(file);
+                                }
+                            }
+                        }
+
+                        Random random = new Random();
+
+                        string filePath = randomList[random.Next(randomList.Count)];
+
+                        if (Vars.CurrentConf.InstantVoiceReply || overrideReadInQueue)
+                        {
+                            Play(filePath, false, true);
+                        }
+                        else
+                        {
+                            // add the file to queue
+                            fileList.Add(new TTSEntry(filePath, true));
                         }
                     }
                     catch (Exception ex)
@@ -45,6 +91,7 @@ namespace Re_TTSCat
             }
             else return false;
         }
+
         public static async Task<bool> PlayVoiceReply(DanmakuModel e)
         {
             if (!Vars.CurrentConf.EnableVoiceReply) return false;

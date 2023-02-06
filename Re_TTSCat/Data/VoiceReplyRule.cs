@@ -23,7 +23,8 @@ namespace Re_TTSCat.Data
         public enum ReplyMode
         {
             VoiceGeneration = 0,
-            PrerecordedMessage = 1
+            PrerecordedMessage = 1,
+            PrerecordedMessageFolder = 2
         }
 
         public void NotifyPropertyChanged(string propertyName)
@@ -33,12 +34,24 @@ namespace Re_TTSCat.Data
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool IsTurnedOn { get => _isTurnedOn; set { _isTurnedOn = value; NotifyPropertyChanged("IsTurnedOn"); } }
-        public string Keyword { get => _keyword; set { _keyword = value; NotifyPropertyChanged("Keyword"); } }
-        public int MatchingSource { get => _matchingSource; set { _matchingSource = value; NotifyPropertyChanged("MatchingSource"); } }
-        public int MatchingMode { get => _matchingMode; set { _matchingMode = value; NotifyPropertyChanged("MatchingMode"); } }
-        public int ReplyingMode { get => _replyingMode; set { _replyingMode = value; NotifyPropertyChanged("ReplyingMode"); } }
-        public string ReplyContent { get => _replyContent; set { _replyContent = value; NotifyPropertyChanged("ReplyContent"); } }
+        public bool IsTurnedOn
+        { get => _isTurnedOn; set { _isTurnedOn = value; NotifyPropertyChanged("IsTurnedOn"); } }
+
+        public string Keyword
+        { get => _keyword; set { _keyword = value; NotifyPropertyChanged("Keyword"); } }
+
+        public int MatchingSource
+        { get => _matchingSource; set { _matchingSource = value; NotifyPropertyChanged("MatchingSource"); } }
+
+        public int MatchingMode
+        { get => _matchingMode; set { _matchingMode = value; NotifyPropertyChanged("MatchingMode"); } }
+
+        public int ReplyingMode
+        { get => _replyingMode; set { _replyingMode = value; NotifyPropertyChanged("ReplyingMode"); } }
+
+        public string ReplyContent
+        { get => _replyContent; set { _replyContent = value; NotifyPropertyChanged("ReplyContent"); } }
+
         private bool _isTurnedOn;
         private string _keyword;
         private int _matchingSource;
@@ -62,12 +75,16 @@ namespace Re_TTSCat.Data
             {
                 case MatchSource.DanmakuContent:
                     return !(ReplyContent.Contains("$GIFT") || ReplyContent.Contains("$COUNT"));
+
                 case MatchSource.DanmakuUser:
                     return !(ReplyContent.Contains("$GIFT") || ReplyContent.Contains("$COUNT"));
+
                 case MatchSource.GiftName:
                     return !ReplyContent.Contains("$DM");
+
                 case MatchSource.GiftUser:
                     return !ReplyContent.Contains("$DM");
+
                 default: return false;
             }
         }
