@@ -43,9 +43,13 @@ namespace Re_TTSCat
                         foreach (var file in files)
                         {
                             int weight = 1;
-                            if (file.Count(c => c == '.') >= 2 &&
-                                int.TryParse(file.Substring(file.Substring(0, file.LastIndexOf('.')).LastIndexOf('.')), out weight))
+                            if (file.Count(c => c == '.') >= 2)
                             {
+                                int lastDotIndex = file.LastIndexOf('.');
+                                int secondLastDotIndex = file.LastIndexOf('.', lastDotIndex - 1);
+                                string numberString = file.Substring(secondLastDotIndex + 1, lastDotIndex - secondLastDotIndex - 1);
+                                weight = int.Parse(numberString);
+
                                 if (weight < 1)
                                 {
                                     randomList.Remove(file);
