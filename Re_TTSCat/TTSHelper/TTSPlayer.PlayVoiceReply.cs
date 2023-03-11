@@ -48,7 +48,11 @@ namespace Re_TTSCat
                                 int lastDotIndex = file.LastIndexOf('.');
                                 int secondLastDotIndex = file.LastIndexOf('.', lastDotIndex - 1);
                                 string numberString = file.Substring(secondLastDotIndex + 1, lastDotIndex - secondLastDotIndex - 1);
-                                weight = int.Parse(numberString);
+
+                                if (!int.TryParse(numberString, out weight))
+                                {
+                                    continue;
+                                }
 
                                 if (weight < 1)
                                 {
